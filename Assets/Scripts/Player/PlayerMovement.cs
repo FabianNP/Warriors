@@ -20,6 +20,7 @@ public class PlayerMovement : NetworkBehaviour
     Vector2 movementDirection;
 
 
+    /*
     //NOTE Only can be Value Types but not References Types
     public struct MyCustomData : INetworkSerializable
     {
@@ -49,7 +50,7 @@ public class PlayerMovement : NetworkBehaviour
             Debug.Log(OwnerClientId + "; randomNumber: " + newValue._int + "; " + newValue._bool + "; " + newValue.message);
         };
     }
-
+    */
     private void Awake()
     {
         cameraToFollow = FindObjectOfType<CameraToFollow>();
@@ -78,7 +79,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             movementDirection = new Vector2(joystick.Direction.x, joystick.Direction.y).normalized;
         }
-        playerAnimation.SetDirection(movementDirection);
+        playerAnimation.setDirection(movementDirection);
         if (Input.GetKeyDown(KeyCode.T))
         {
             spawnedObjectTransform = Instantiate(spawnedObjectPrefab);
@@ -109,6 +110,7 @@ public class PlayerMovement : NetworkBehaviour
 
         rigidbody.velocity = movementDirection * movementSpeed;
     }
+    /*
 
     // ---------------------------------------------------------
     // Send messages to the server, only runs on the server 
@@ -127,4 +129,5 @@ public class PlayerMovement : NetworkBehaviour
     {
         Debug.Log("client");
     }
+    */
 }

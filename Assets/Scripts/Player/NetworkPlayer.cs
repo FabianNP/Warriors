@@ -8,27 +8,28 @@ public class NetworkPlayer : NetworkBehaviour
     public bool isJoystick;
     private Rigidbody2D rigidbody;
 
-    private Transform spawnedObjectTransform;
     private VariableJoystick joystick;
     private Canvas inputCanvas;
     private PlayerAnimation playerAnimation;
     private CameraToFollow cameraToFollow;
 
-    // Vector2 movementDirection;
+    Vector3 movementDirection;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         cameraToFollow = FindObjectOfType<CameraToFollow>();
         inputCanvas = FindObjectOfType<Canvas>();
         joystick = inputCanvas.GetComponentInChildren<VariableJoystick>();
         rigidbody = GetComponent<Rigidbody2D>();
         playerAnimation = rigidbody.GetComponent<PlayerAnimation>();
-    }
 
-    private void Start()
-    {
         EnableJoystickInput();
-        // cameraToFollow.SetObjectTransform(transform);
+        if(IsOwner)
+        {
+            cameraToFollow.SetObjectTransform(transform);
+        }
+
     }
 
     private void EnableJoystickInput()
@@ -45,16 +46,19 @@ public class NetworkPlayer : NetworkBehaviour
             float vertical = joystick.Direction.y;  
 
             UpdateServerRpc(horizontal, vertical);
+
+            playerAnimation.setDirection(movementDirection);
+
         }
     }
 
     [ServerRpc]
     private void UpdateServerRpc(float horizontal, float vertical)
     {
-        Vector3 movementDirection = new Vector3(horizontal, vertical, transform.position.z).normalized;
+        movementDirection = new Vector3(horizontal, vertical, transform.position.z).normalized;
 
         transform.Translate(movementDirection * movementSpeed * Time.deltaTime);
 
     }
 
-  }
+}

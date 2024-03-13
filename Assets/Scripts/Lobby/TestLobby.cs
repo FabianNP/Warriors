@@ -5,16 +5,22 @@ using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering;
 
 public class TestLobby : MonoBehaviour
 {
+    [SerializeField] private Button createLobbyBtn;
+    [SerializeField] private Button listLobbyBtn;
+
 
     private Lobby hostLobby;
     private Lobby joinedLobby;
     private float heartbeatTimer;
     private float lobbyUpdateTimer;
     private string playerName = "Empy";
+
+    private int execute = 0;
 
     private async void Start()
     {
@@ -30,6 +36,16 @@ public class TestLobby : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
         Debug.Log(playerName);
+
+        createLobbyBtn.onClick.AddListener(() =>
+        {
+            CreateLobby();
+        });
+
+        listLobbyBtn.onClick.AddListener(() =>
+        {
+            ListLobbies();
+        });
     }
 
     private void Update()
@@ -90,14 +106,13 @@ public class TestLobby : MonoBehaviour
 
             Debug.Log("Created Lobby" + lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Id + " " + lobby.LobbyCode);
             PrintPlayers(lobby);
-
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError(e);
         }
     }
-
+   
     private async void ListLobbies()
     {
         try
@@ -111,7 +126,7 @@ public class TestLobby : MonoBehaviour
                     new QueryFilter(QueryFilter.FieldOptions.S1, "CaptureTheFlag", QueryFilter.OpOptions.EQ)
                 },
                 Order = new List<QueryOrder>
-                {
+                {   
                     new QueryOrder(false, QueryOrder.FieldOptions.Created)
                 }
             };
@@ -151,6 +166,18 @@ public class TestLobby : MonoBehaviour
     */
 
     
+    private async void JoinLobby()
+    {
+        try {
+            QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+
+            await Lobbies.Instance.JoinLobbyByIdAsync(queryResponse.Results[0].Id);
+        }catch (LobbyServiceException e)
+        {
+            Debug.LogException(e);
+        }
+    }
+
     private async void JoinLobbyByCode(string lobbyCode)
     {
         try

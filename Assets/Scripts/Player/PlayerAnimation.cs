@@ -1,40 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+
 
 public class PlayerAnimation : NetworkBehaviour
 {
     private Animator animator;
 
-    private string[] staticDirections = { "Static N", "Static NW", "Static W", "Static SW", "Static S", "Static SE", "Static E", "Static NE" };
-    private string[] RunDirections = { "Run N", "Run NW", "Run W", "Run SW", "Run S", "Run SE", "Run E", "Run NE" };
 
+    private string[] staticDirections = { "Static N", "Static NW", "Static W", "Static SW", "Static S", "Static SE", "Static E", "Static NE" };
+    private string[] runDirections = { "Run N", "Run NW", "Run W", "Run SW", "Run S", "Run SE", "Run E", "Run NE" };
+    
     int lastDirection;
-    private void Awake()
+    // int directionIndex;
+
+    private string[] directionArray;
+    public override void OnNetworkSpawn()
     {
         animator = GetComponent<Animator>();
+
+        // directionArray = staticDirections;
     }
 
-    public void SetDirection(Vector2 _direction)
+    public void setDirection(Vector2 _direction)
     {
-        if (!IsLocalPlayer) return; // Solo ejecutar la animacion en el cliente local
+        if (!IsOwner) return;
 
-        string[] directionArray = null;
         if (_direction.magnitude < 0.01)
         {
             directionArray = staticDirections;
         }
         else
         {
-            directionArray = RunDirections;
-            lastDirection = DirectionToIndex(_direction);
+            directionArray = runDirections;
+            lastDirection = directionToIndex(_direction);
         }
 
         animator.Play(directionArray[lastDirection]);
     }
 
-    private int DirectionToIndex(Vector2 direction)
+  
+
+    private int directionToIndex(Vector2 direction)
     {
         float step = 360 / 8; //MARKER 45 one circle and 8 slices
         float offset = step / 2;//MARKER 22.5

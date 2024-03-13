@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 2491291936710616170}
   - component: {fileID: 6359796707493906133}
   - component: {fileID: 6719264468303801750}
-  - component: {fileID: 5035917271938102100}
-  - component: {fileID: 8177071133897446203}
-  - component: {fileID: 1392154884131465488}
+  - component: {fileID: 2084599888407879907}
+  - component: {fileID: -8081778581410361081}
+  - component: {fileID: 5433982382485073811}
+  - component: {fileID: -7799671635661579858}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd07037b081c48943bbf5a594c6aeeb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5035917271938102100
+--- !u!114 &2084599888407879907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,13 +218,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8047853284843743756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b06d6b3b6c8c4f40aacd3815bdeef68, type: 3}
+  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnedObjectPrefab: {fileID: 9170057081549553860, guid: 1aabdb08b06d96d4ab2063e567099bcd, type: 3}
-  movementSpeed: 0.777
-  isJoystick: 0
---- !u!114 &8177071133897446203
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 2491291936710616170}
+--- !u!114 &-8081778581410361081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8047853284843743756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0
@@ -254,7 +254,22 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &1392154884131465488
+--- !u!114 &5433982382485073811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047853284843743756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b405abf74578ec949b0ddc65efd90b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedObjectPrefab: {fileID: 0}
+  movementSpeed: 0.5
+  isJoystick: 0
+--- !u!114 &-7799671635661579858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
